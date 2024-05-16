@@ -8,7 +8,7 @@ from typing import List
 WORK_DIR = pathlib.Path(__file__).parent
 PROJECT_ROOT = WORK_DIR.parent
 RUN_COUNT = 10
-DOCKER_IMAGE = "13da9d1301ad"
+DOCKER_IMAGE = "6203a9d12082"
 
 
 def run_simple_process(cmd: List[str]):
