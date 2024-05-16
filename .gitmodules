@@ -4,3 +4,6 @@
 [submodule "third_party/bpftool_new"]
 	path = third_party/bpftool_new
 	url = https://github.com/libbpf/bpftool
+[submodule "libbpf-starter-template"]
+	path = libbpf-starter-template
+	url = https://github.com/eunomia-bpf/libbpf-starter-template-wasm-bpf-benchmark

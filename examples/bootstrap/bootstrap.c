@@ -3,7 +3,6 @@
 #include <stdbool.h>
 #include "bootstrap.skel.h"
 #include "bootstrap.wasm.h"
-
 #include <stdio.h>
 #include <time.h>
 
@@ -54,10 +53,10 @@ static int handle_event(void *ctx, void *data, size_t data_sz) {
 static bool exiting = false;
 
 int main(int argc, char **argv) {
-#ifndef NATIVE_LIBBPF
-  struct bpf_buffer *rb = NULL;
-#else
+#ifdef NATIVE_LIBBPF
   struct ring_buffer *rb = NULL;
+#else
+  struct bpf_buffer *rb = NULL;
 #endif
 
   struct bootstrap_bpf *skel;
@@ -96,12 +95,13 @@ int main(int argc, char **argv) {
     fprintf(stderr, "Failed to attach BPF skeleton\n");
     goto cleanup;
   }
-
+  puts("Attach ok!");
+  fflush(stdout);
 /* Set up ring buffer polling */
-#ifndef NATIVE_LIBBPF
-  rb = bpf_buffer__open(skel->maps.rb, handle_event, NULL);
-#else
+#ifdef NATIVE_LIBBPF
   rb = ring_buffer__new(bpf_map__fd(skel->maps.rb), handle_event, NULL, NULL);
+#else
+  rb = bpf_buffer__open(skel->maps.rb, handle_event, NULL);
 #endif
   if (!rb) {
     err = -1;
@@ -130,10 +130,10 @@ int main(int argc, char **argv) {
   }
 
 cleanup:
-#ifdef WASM_BPF
-  bpf_buffer__free(rb);
-#else
+#ifdef NATIVE_LIBBPF
   ring_buffer__free(rb);
+#else
+  bpf_buffer__free(rb);
 #endif
   bootstrap_bpf__destroy(skel);
   return err < 0 ? -err : 0;
