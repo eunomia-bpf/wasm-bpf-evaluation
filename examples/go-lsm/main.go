@@ -4,7 +4,7 @@ import (
 	"bytes"
 	_ "embed"
 	"fmt"
-	helper "github.com/eunomia-bpf/wasm-bpf/wasm-sdk/go_sdk"
+	helper "github.com/eunomia-bpf/wasm-bpf-guest-sdk-go"
 	"time"
 	"unsafe"
 )
