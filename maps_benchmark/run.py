@@ -70,24 +70,24 @@ def main():
     for i in range(10):
         native_result_with_perf.append(run_simple(
             [str(ASSETS_DIR/"map_benchmark")], WORK_DIR/"result"/f"native{i}.perf", False))
-        # native_result_without_perf.append(run_simple(
-        #     [str(ASSETS_DIR/"map_benchmark")]))
+        native_result_without_perf.append(run_simple(
+            [str(ASSETS_DIR/"map_benchmark")]))
     wasm_result_with_perf = []
     wasm_result_without_perf = []
     for i in range(10):
         wasm_result_with_perf.append(run_simple(
             [WASM_BPF, str(ASSETS_DIR/"map_benchmark.wasm")], WORK_DIR/"result"/f"wasm{i}.perf"))
-        # wasm_result_without_perf.append(run_simple(
-        #     [WASM_BPF, str(ASSETS_DIR/"map_benchmark.wasm")], None))
+        wasm_result_without_perf.append(run_simple(
+            [WASM_BPF, str(ASSETS_DIR/"map_benchmark.wasm")], None))
     docker_result = []
     for i in range(10):
         docker_result.append(
             run_simple(["docker", "run", "--privileged", "-v", "/sys:/sys", DOCKER_IMAGE], None))
     result = {
         "native_perf": generate_statistics(native_result_with_perf),
-        # "native_no_perf": generate_statistics(native_result_without_perf),
+        "native_no_perf": generate_statistics(native_result_without_perf),
         "wasm_perf": generate_statistics(wasm_result_with_perf),
-        # "wasm_no_perf": generate_statistics(wasm_result_without_perf),
+        "wasm_no_perf": generate_statistics(wasm_result_without_perf),
         "docker": generate_statistics(docker_result)
     }
     print(result)
