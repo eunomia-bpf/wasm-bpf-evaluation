@@ -50,6 +50,15 @@
 ```console
 -rwxr-xr-x  1 root root 1.7M May 17 01:11 bootstrap-libbpf-rs.wasm
 ```
+## bootstrap-libbpf-rs-native
+release:
+```console
+-rwxr-xr-x  1 root root 837K May 18 01:07 bootstrap-libbpf-rs
+```
+debug:
+```console
+-rwxr-xr-x  1 root root 7.2M May 18 01:12 bootstrap-libbpf-rs
+```
 ## go-execve
 ```console
 -rwxr-xr-x  1 root root 602K May 17 01:14 execve.wasm
@@ -65,4 +74,13 @@
 ## tcpconnlat-libbpf-rs
 ```console
 -rwxr-xr-x  1 root root 1.8M May 17 01:17 tcpconnlat-libbpf-rs.wasm
+```
+## tcpconnlat-libbpf-rs-native
+release:
+```console
+-rwxr-xr-x  1 root root 845K May 18 01:14 tcpconnlat-libbpf-rs
+```
+debug:
+```console
+-rwxr-xr-x  1 root root 7.1M May 18 01:14 tcpconnlat-libbpf-rs
 ```

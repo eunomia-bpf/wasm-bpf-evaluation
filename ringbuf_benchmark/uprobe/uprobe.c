@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
     err = -1;
     goto cleanup;
   }
-
+  puts("Before attach");
   err = uprobe_bpf__attach(skel);
   if (err) {
     printf("Failed to attach BPF skeleton\n");
