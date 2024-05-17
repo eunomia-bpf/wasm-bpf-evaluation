@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
   }
   // uint64_t count = 0;
   uint64_t start = get_timestamp();
-  for (int i = 1; i <= 1000000; i++) {
+  for (int i = 1; i <= TEST_COUNT; i++) {
     int64_t key = 10;
     int64_t value_out;
     bpf_map_lookup_elem(mapfd, &key, &value_out);
