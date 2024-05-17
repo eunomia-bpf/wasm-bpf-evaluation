@@ -1,2 +1,6 @@
 /.output
 /target
+/uprobe
+/*.bpf.o
+/uprobe.wasm
+/uprobe.skel.h

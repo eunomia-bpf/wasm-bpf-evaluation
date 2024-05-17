@@ -1,20 +1,19 @@
-#include <stdlib.h>
+#define _GNU_SOURCE
+#include <assert.h>
 #include <fcntl.h>
 #include <stdio.h>
-
-int uprobe_add(int a, int b) {
-    return a + b;
-}
-
-int uprobe_sub(int a, int b) {
-    return a - b;
-}
+#include <stdlib.h>
+#include <time.h>
+#include <unistd.h>
+int uprobe_add(int a, int b) { return a + b; }
 
 int main() {
-    while (1) {
-        int a = 1;
-        int b = 1;
-        printf("%d %d\n", uprobe_add(a, b), uprobe_sub(a, b));
-        sleep(2);
-    }
+  srand(time(NULL));
+  while (1) {
+    int a = rand() & 255;
+    int b = rand() & 255;
+    int c = uprobe_add(a, b);
+    assert(a + b == c);
+    // usleep(1); 
+  }
 }
