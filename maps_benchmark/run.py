@@ -10,7 +10,7 @@ ASSETS_DIR = WORK_DIR/"assets"
 
 WASM_BPF = WORK_DIR.parent/"assets"/"wasm-bpf"
 
-DOCKER_IMAGE = "704b7e51cbc6"
+DOCKER_IMAGE = "5a03a529e80b"
 FLAME_GRAPH_ROOT = pathlib.Path("/root/FlameGraph")
 
 
@@ -38,7 +38,7 @@ def run_simple(cmdline: List[str], perf_data_name: Union[str, None] = None, star
     print(lines)
     data_line = lines[-1]
     time, count = (float(x) for x in data_line.strip().split())
-    return count/(time/1e6)
+    return time/count
 
 
 def generate_statistics(data: List[float]):
@@ -70,24 +70,24 @@ def main():
     for i in range(10):
         native_result_with_perf.append(run_simple(
             [str(ASSETS_DIR/"map_benchmark")], WORK_DIR/"result"/f"native{i}.perf", False))
-        native_result_without_perf.append(run_simple(
-            [str(ASSETS_DIR/"map_benchmark")]))
+        # native_result_without_perf.append(run_simple(
+        #     [str(ASSETS_DIR/"map_benchmark")]))
     wasm_result_with_perf = []
     wasm_result_without_perf = []
     for i in range(10):
         wasm_result_with_perf.append(run_simple(
             [WASM_BPF, str(ASSETS_DIR/"map_benchmark.wasm")], WORK_DIR/"result"/f"wasm{i}.perf"))
-        wasm_result_without_perf.append(run_simple(
-            [WASM_BPF, str(ASSETS_DIR/"map_benchmark.wasm")], None))
+        # wasm_result_without_perf.append(run_simple(
+        #     [WASM_BPF, str(ASSETS_DIR/"map_benchmark.wasm")], None))
     docker_result = []
     for i in range(10):
         docker_result.append(
             run_simple(["docker", "run", "--privileged", "-v", "/sys:/sys", DOCKER_IMAGE], None))
     result = {
         "native_perf": generate_statistics(native_result_with_perf),
-        "native_no_perf": generate_statistics(native_result_without_perf),
+        # "native_no_perf": generate_statistics(native_result_without_perf),
         "wasm_perf": generate_statistics(wasm_result_with_perf),
-        "wasm_no_perf": generate_statistics(wasm_result_without_perf),
+        # "wasm_no_perf": generate_statistics(wasm_result_without_perf),
         "docker": generate_statistics(docker_result)
     }
     print(result)
