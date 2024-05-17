@@ -55,6 +55,7 @@
 release:
 ```console
 -rwxr-xr-x  1 root root 837K May 18 01:07 bootstrap-libbpf-rs
+-rwxr-xr-x  2 root root 5.1M May 18 02:20 bootstrap-libbpf-rs (whole statically linked)
 ```
 debug:
 ```console
@@ -77,6 +78,7 @@ debug:
 release:
 ```console
 -rwxr-xr-x  1 root root 706K May 18 01:27 rust-bootstrap
+-rwxr-xr-x 2 root root 5.0M May 18 02:22 rust-bootstrap (whole statically linked)
 ```
 debug:
 ```console
@@ -91,6 +93,7 @@ debug:
 release:
 ```console
 -rwxr-xr-x  1 root root 845K May 18 01:14 tcpconnlat-libbpf-rs
+-rwxr-xr-x  2 root root 5.1M May 18 02:21 tcpconnlat-libbpf-rs (whole statically linked)
 ```
 debug:
 ```console

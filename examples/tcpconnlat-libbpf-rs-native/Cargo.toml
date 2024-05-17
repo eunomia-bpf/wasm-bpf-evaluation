@@ -7,5 +7,5 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1.0.71"
-libbpf-rs = "0.23.1"
+libbpf-rs = { version = "0.23.1", features = ["vendored"] }
 plain = "0.2.3"

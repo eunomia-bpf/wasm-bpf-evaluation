@@ -4,4 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-libbpf-sys = "1.4.1"
+libbpf-sys = { version = "1.4.1", features = [
+    "vendored-libelf",
+    "vendored-zlib",
+] }
