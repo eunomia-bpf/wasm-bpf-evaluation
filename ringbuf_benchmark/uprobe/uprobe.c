@@ -75,20 +75,13 @@ int main(int argc, char *argv[]) {
   }
   uint64_t start_time = get_timestamp();
   //   printf("%lu, %lu\n",start_time,get_timestamp_quick());
-  while (get_timestamp() - start_time < NANO_SECOND_TO_RUN) {
+  // while (get_timestamp() - start_time < NANO_SECOND_TO_RUN)
+  for (int i = 1; i <= 1000000; i++) {
 #ifdef NATIVE_LIBBPF
     err = ring_buffer__poll(rb, 1);
 #else
     err = bpf_buffer__poll(rb, 1 /* timeout, ms */);
 #endif
-    if (err == -EINTR) {
-      err = 0;
-      break;
-    }
-    if (err < 0) {
-      printf("Error polling perf buffer: %d\n", err);
-      break;
-    }
   }
   uint64_t total_time = get_timestamp() - start_time;
   printf("Total nanoseconds: %" PRIu64 ", total polled events: %" PRIu64

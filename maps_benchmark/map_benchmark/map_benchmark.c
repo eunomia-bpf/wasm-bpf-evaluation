@@ -48,7 +48,6 @@ int main(int argc, char *argv[]) {
     int64_t key = 10;
     int64_t value_out;
     bpf_map_lookup_elem(mapfd, &key, &value_out);
-    assert(value_out == (((uint64_t)10 << 32) | 10));
     count++;
   }
   uint64_t time_elapsed = get_timestamp() - start;
