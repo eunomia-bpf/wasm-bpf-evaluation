@@ -47,6 +47,7 @@
 -rwxr-xr-x  1 root root 1.4M May 16 21:15 xdp
 ```
 ## bootstrap-libbpf-rs
+- Note: `bootstrap-libbpf-ts` and `bootstrap-libbpf-rs-native` used `libbpf-rs`
 ```console
 -rwxr-xr-x  1 root root 1.7M May 17 01:11 bootstrap-libbpf-rs.wasm
 ```
@@ -68,9 +69,20 @@ debug:
 -rwxr-xr-x  1 root root 554K May 17 01:15 lsm.wasm
 ```
 ## rust-bootstrap
+- Note: `rust-bootstrap` and `rust-bootstrap-native` directly uses libbpf-sys
 ```console
 -rwxr-xr-x  1 root root 1.7M May 17 01:16 rust-bootstrap.wasm
 ```
+## rust-bootstrap-native
+release:
+```console
+-rwxr-xr-x  1 root root 706K May 18 01:27 rust-bootstrap
+```
+debug:
+```console
+-rwxr-xr-x  1 root root 4.5M May 18 01:28 rust-bootstrap
+```
+
 ## tcpconnlat-libbpf-rs
 ```console
 -rwxr-xr-x  1 root root 1.8M May 17 01:17 tcpconnlat-libbpf-rs.wasm

@@ -1,0 +1,7 @@
+[package]
+name = "rust-bootstrap"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+libbpf-sys = "1.4.1"
