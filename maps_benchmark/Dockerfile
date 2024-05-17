@@ -1,0 +1,11 @@
+FROM ubuntu:22.04
+
+WORKDIR /root/
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends libelf1 \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY ./map_benchmark /root/
+
+ENTRYPOINT ["/root/map_benchmark"]
