@@ -65,9 +65,20 @@ debug:
 ```console
 -rwxr-xr-x  1 root root 602K May 17 01:14 execve.wasm
 ```
+## go-execve-native
+statically linked, using cilium/ebpf
+```console
+-rwxr-xr-x  1 root root 4.2M May 18 14:29 execve
+```
+
 ## go-lsm
 ```console
 -rwxr-xr-x  1 root root 554K May 17 01:15 lsm.wasm
+```
+## go-lsm-native
+statically linked, using cilium/ebpf
+```console
+-rwxr-xr-x 1 root root 4.2M May 18 14:34 lsm
 ```
 ## rust-bootstrap
 - Note: `rust-bootstrap` and `rust-bootstrap-native` directly uses libbpf-sys
