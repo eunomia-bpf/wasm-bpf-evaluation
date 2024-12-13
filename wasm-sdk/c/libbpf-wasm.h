@@ -69,6 +69,7 @@ struct bpf_map_skeleton {
 struct bpf_prog_skeleton {
     const char* name;
     struct bpf_program** prog;
+    struct bpf_link** link;
 };
 
 struct bpf_object_skeleton {

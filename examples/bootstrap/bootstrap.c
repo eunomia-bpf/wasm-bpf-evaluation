@@ -10,7 +10,7 @@
 #include <pthread.h>
 #include <unistd.h>
 // 环境变量结构体
-static struct env {
+struct env {
     bool verbose;
     long min_duration_ms;
     uint64_t count;
@@ -75,7 +75,7 @@ static int handle_event(void *ctx, void *data, size_t data_sz) {
         env.first_event = false;
     }
 
-    if (env.count % 10000 == 0) {
+    if (env.count % 1000 == 0) {
         // 记录并打印每10000次事件的时间戳
         snprintf(env.last_ts, sizeof(env.last_ts), "%s", ts);
         printf("Debug: env.last_ts set to %s\n", env.last_ts); // 调试输出
@@ -87,33 +87,6 @@ static int handle_event(void *ctx, void *data, size_t data_sz) {
 
 static bool exiting = false;
 
-// 信号处理函数
-static void sig_handler(int sig) {
-    exiting = true;
-}
-
-// 报告线程函数（可选，用于更多统计信息）
-void *report_thread(void *arg) {
-    while (!exiting) {
-        sleep(10); // 每10秒报告一次
-        uint64_t current_count = env.count;
-        time_t current_time = time(NULL);
-        double elapsed = difftime(current_time, env.last_report_time);
-        if (elapsed > 0) {
-            double rate = (current_count - env.last_report_count) / elapsed;
-            printf("Total Events: %lu, Events in last %.0f seconds: %lu, Rate: %.2f events/sec\n",
-                   current_count, elapsed, current_count - env.last_report_count, rate);
-            env.last_report_count = current_count;
-            env.last_report_time = current_time;
-        }
-
-        // 确保在打印 env.last_ts 之前，它已被设置
-        if (env.count >= 10000 && env.count % 10000 == 0) {
-            printf("Report Thread: Event Count: %lu, Timestamp: %s\n", env.count, env.last_ts);
-        }
-    }
-    return NULL;
-}
 
 int main(int argc, char **argv) {
 #ifdef NATIVE_LIBBPF

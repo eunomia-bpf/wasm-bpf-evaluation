@@ -48,15 +48,16 @@ static struct env {
   bool extended;
   bool failed;
   char *name;
-} env = {.uid = INVALID_UID};
+  
+  // 新增字段：事件计数器和标志位
+  uint64_t count;
+  bool first_event;
+} env = {.uid = INVALID_UID, .count = 0, .first_event = true, .name="a.out"};
 
 static int handle_event(void *ctx, void *data, size_t data_sz) {
   const struct event *e = data;
-  struct tm *tm;
-  int sps_cnt;
   char ts[32];
   time_t t;
-  int fd, err;
 
   /* name filtering is currently done in user space */
   if (env.name && strstr(e->comm, env.name) == NULL)
@@ -64,40 +65,42 @@ static int handle_event(void *ctx, void *data, size_t data_sz) {
 
   /* prepare fields */
   time(&t);
-  tm = localtime(&t);
-  strftime(ts, sizeof(ts), "%H:%M:%S", tm);
-  if (e->ret >= 0) {
-    fd = e->ret;
-    err = 0;
-  } else {
-    fd = -1;
-    err = -e->ret;
+  struct tm *tm = localtime(&t);
+  if (tm == NULL) {
+    fprintf(stderr, "localtime returned NULL\n");
+    return 0;
   }
 
-  /* print output */
-  sps_cnt = 0;
-  if (env.timestamp) {
-    printf("%-8s ", ts);
-    sps_cnt += 9;
+  if (strftime(ts, sizeof(ts), "%H:%M:%S", tm) == 0) {
+    fprintf(stderr, "strftime failed\n");
+    return 0;
   }
-  if (env.print_uid) {
-    printf("%-7d ", e->uid);
-    sps_cnt += 8;
+
+  /* 增加事件计数 */
+  env.count++;
+
+  /* 如果是第一个事件，打印时间戳 */
+  if (env.first_event) {
+    printf("First Timestamp: %s\n", ts);
+    env.first_event = false;
   }
-  printf("%-6d %-16s %3d %3d ", e->pid, e->comm, fd, err);
-  sps_cnt += 7 + 17 + 4 + 4;
-  if (env.extended) {
-    printf("%08o ", e->flags);
-    sps_cnt += 9;
+
+  /* 每10000个事件打印一次时间戳 */
+  if (env.count % 1000 == 0) {
+    printf("Debug: env.last_ts set to %s\n", ts); // 调试输出
+    printf("Event Count: %lu, Timestamp: %s\n", env.count, ts);
   }
-  printf("%s\n", e->fname);
+
   return 0;
 }
+
 static void handle_event_wrapper(void *ctx, int cpu, void *data,
                                  unsigned int data_sz) {
   handle_event(ctx, data, data_sz);
 }
+
 static void lost_event(void *a, int b, unsigned long long c) {}
+
 int main(int argc, char **argv) {
   struct opensnoop_bpf *obj;
   unsigned long time_end = 0;
@@ -108,6 +111,7 @@ int main(int argc, char **argv) {
     fprintf(stdout, "failed to open BPF object\n");
     return 1;
   }
+
   /* initialize global data (filtering options) */
   obj->rodata->targ_tgid = env.pid;
   obj->rodata->targ_pid = env.tid;
@@ -116,10 +120,8 @@ int main(int argc, char **argv) {
 
   /* aarch64 and riscv64 don't have open syscall */
   if (!tracepoint_exists("syscalls", "sys_enter_open")) {
-    bpf_program__set_autoload(obj->progs.tracepoint__syscalls__sys_enter_open,
-                              false);
-    bpf_program__set_autoload(obj->progs.tracepoint__syscalls__sys_exit_open,
-                              false);
+    bpf_program__set_autoload(obj->progs.tracepoint__syscalls__sys_enter_open, false);
+    bpf_program__set_autoload(obj->progs.tracepoint__syscalls__sys_exit_open, false);
   }
 
   err = opensnoop_bpf__load(obj);
@@ -134,25 +136,20 @@ int main(int argc, char **argv) {
     goto cleanup;
   }
   printf("attach ok\n");
-  /* print headers */
-  if (env.timestamp)
-    printf("%-8s ", "TIME");
-  if (env.print_uid)
-    printf("%-7s ", "UID");
-  printf("%-6s %-16s %3s %3s ", "PID", "COMM", "FD", "ERR");
-  if (env.extended)
-    printf("%-8s ", "FLAGS");
-  printf("%s", "PATH");
-  printf("\n");
 
-/* setup event callbacks */
+  /* print headers */
+  // 由于我们只打印时间戳，调整表头
+  if (env.timestamp) {
+    printf("%-8s ", "TIME");
+  }
+  printf("%s\n", "EVENT");
+
+  /* setup event callbacks */
 #ifdef NATIVE_LIBBPF
-  struct perf_buffer *buf =
-      perf_buffer__new(bpf_map__fd(obj->maps.events), PERF_BUFFER_PAGES,
-                       handle_event_wrapper, lost_event, NULL, NULL);
+  struct perf_buffer *buf = perf_buffer__new(bpf_map__fd(obj->maps.events), PERF_BUFFER_PAGES,
+                                            handle_event_wrapper, lost_event, NULL, NULL);
 #else
-  struct bpf_buffer *buf =
-      bpf_buffer__open(obj->maps.events, handle_event, NULL);
+  struct bpf_buffer *buf = bpf_buffer__open(obj->maps.events, handle_event, NULL);
 #endif
 
   if (!buf) {
@@ -168,9 +165,9 @@ int main(int argc, char **argv) {
   /* main: poll */
   while (true) {
 #ifdef NATIVE_LIBBPF
-    err = perf_buffer__poll(buf, PERF_POLL_TIMEOUT_MS);
+    err = perf_buffer__poll(buf, PERF_BUFFER_TIME_MS);
 #else
-    err = bpf_buffer__poll(buf, PERF_POLL_TIMEOUT_MS);
+    err = bpf_buffer__poll(buf, PERF_BUFFER_TIME_MS);
 #endif
     if (err < 0 && err != -EINTR) {
       fprintf(stdout, "error polling perf buffer: %s\n", strerror(-err));
@@ -185,7 +182,6 @@ int main(int argc, char **argv) {
 cleanup:
 #ifdef NATIVE_LIBBPF
   perf_buffer__free(buf);
-
 #else
   bpf_buffer__free(buf);
 #endif
