@@ -1,0 +1,42 @@
+
+attach ok
+EVENT
+First Timestamp: 10:16:56
+Debug: env.last_ts set to 10:16:57
+Event Count: 1000, Timestamp: (null)
+Debug: env.last_ts set to 10:16:57
+Event Count: 2000, Timestamp: (null)
+Debug: env.last_ts set to 10:16:57
+Event Count: 3000, Timestamp: (null)
+Debug: env.last_ts set to 10:16:57
+Event Count: 4000, Timestamp: (null)
+Debug: env.last_ts set to 10:16:58
+Event Count: 5000, Timestamp: (null)
+Debug: env.last_ts set to 10:16:58
+Event Count: 6000, Timestamp: (null)
+Debug: env.last_ts set to 10:16:58
+Event Count: 7000, Timestamp: (null)
+Debug: env.last_ts set to 10:16:58
+Event Count: 8000, Timestamp: (null)
+Debug: env.last_ts set to 10:16:59
+Event Count: 9000, Timestamp: (null)
+Debug: env.last_ts set to 10:16:59
+Event Count: 10000, Timestamp: (null)
+Debug: env.last_ts set to 10:16:59
+Event Count: 11000, Timestamp: (null)
+Debug: env.last_ts set to 10:16:59
+Event Count: 12000, Timestamp: (null)
+Debug: env.last_ts set to 10:17:00
+Event Count: 13000, Timestamp: (null)
+Debug: env.last_ts set to 10:17:00
+Event Count: 14000, Timestamp: (null)
+Debug: env.last_ts set to 10:17:00
+Event Count: 15000, Timestamp: (null)
+Debug: env.last_ts set to 10:17:01
+Event Count: 16000, Timestamp: (null)
+Debug: env.last_ts set to 10:17:01
+Event Count: 17000, Timestamp: (null)
+Debug: env.last_ts set to 10:17:01
+Event Count: 18000, Timestamp: (null)
+Debug: env.last_ts set to 10:17:01
+Event Count: 19000

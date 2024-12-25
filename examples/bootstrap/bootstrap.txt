@@ -1,0 +1,30 @@
+
+Attach ok!
+TIME     EVENT COMM             PID     PPID    FILENAME/EXIT CODE
+First Timestamp: 07:20:12
+Debug: env.last_ts set to 07:20:14
+Event Count: 1000, Timestamp: (null)
+Debug: env.last_ts set to 07:20:16
+Event Count: 2000, Timestamp: (null)
+Debug: env.last_ts set to 07:20:17
+Event Count: 3000, Timestamp: (null)
+Debug: env.last_ts set to 07:20:19
+Event Count: 4000, Timestamp: (null)
+Debug: env.last_ts set to 07:20:21
+Event Count: 5000, Timestamp: (null)
+Debug: env.last_ts set to 07:20:22
+Event Count: 6000, Timestamp: (null)
+Debug: env.last_ts set to 07:20:27
+Event Count: 7000, Timestamp: (null)
+Debug: env.last_ts set to 07:20:29
+Event Count: 8000, Timestamp: (null)
+Debug: env.last_ts set to 07:20:30
+Event Count: 9000, Timestamp: (null)
+Debug: env.last_ts set to 07:20:31
+Event Count: 10000, Timestamp: (null)
+Debug: env.last_ts set to 07:20:32
+Event Count: 11000, Timestamp: (null)
+Debug: env.last_ts set to 07:20:36
+Event Count: 12000, Timestamp: (null)
+Debug: env.last_ts set to 07:20:40
+Event Count: 13000, Timestamp: 

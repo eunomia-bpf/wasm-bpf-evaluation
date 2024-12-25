@@ -1,0 +1,124 @@
+%CPU %MEM CMD
+21.0  0.0 ./a.out
+%CPU %MEM CMD
+46.0  0.0 ./a.out
+%CPU %MEM CMD
+71.0  0.0 ./a.out
+%CPU %MEM CMD
+96.0  0.0 ./a.out
+%CPU %MEM CMD
+60.5  0.0 ./a.out
+%CPU %MEM CMD
+74.0  0.0 ./a.out
+%CPU %MEM CMD
+86.0  0.0 ./a.out
+%CPU %MEM CMD
+99.0  0.0 ./a.out
+%CPU %MEM CMD
+74.6  0.0 ./a.out
+%CPU %MEM CMD
+83.0  0.0 ./a.out
+%CPU %MEM CMD
+91.3  0.0 ./a.out
+%CPU %MEM CMD
+99.3  0.0 ./a.out
+%CPU %MEM CMD
+80.7  0.0 ./a.out
+%CPU %MEM CMD
+86.7  0.0 ./a.out
+%CPU %MEM CMD
+92.7  0.0 ./a.out
+%CPU %MEM CMD
+99.2  0.0 ./a.out
+%CPU %MEM CMD
+84.0  0.0 ./a.out
+%CPU %MEM CMD
+89.0  0.0 ./a.out
+%CPU %MEM CMD
+94.0  0.0 ./a.out
+%CPU %MEM CMD
+99.2  0.0 ./a.out
+%CPU %MEM CMD
+86.6  0.0 ./a.out
+%CPU %MEM CMD
+91.1  0.0 ./a.out
+%CPU %MEM CMD
+95.3  0.0 ./a.out
+%CPU %MEM CMD
+99.5  0.0 ./a.out
+%CPU %MEM CMD
+88.8  0.0 ./a.out
+%CPU %MEM CMD
+92.4  0.0 ./a.out
+%CPU %MEM CMD
+95.8  0.0 ./a.out
+%CPU %MEM CMD
+99.4  0.0 ./a.out
+%CPU %MEM CMD
+90.1  0.0 ./a.out
+%CPU %MEM CMD
+93.1  0.0 ./a.out
+%CPU %MEM CMD
+96.3  0.0 ./a.out
+%CPU %MEM CMD
+99.6  0.0 [a.out]
+%CPU %MEM CMD
+91.4  0.0 [a.out]
+%CPU %MEM CMD
+94.3  0.0 [a.out]
+%CPU %MEM CMD
+97.3  0.0 [a.out]
+%CPU %MEM CMD
+%CPU %MEM CMD
+ 0.0  0.0 ./a.out
+%CPU %MEM CMD
+ 0.0  0.0 ./a.out
+%CPU %MEM CMD
+86.0  0.0 ./a.out
+%CPU %MEM CMD
+ 119  0.0 ./a.out
+%CPU %MEM CMD
+ 153  0.0 ./a.out
+%CPU %MEM CMD
+93.0  0.0 ./a.out
+%CPU %MEM CMD
+ 110  0.0 ./a.out
+%CPU %MEM CMD
+ 127  0.0 ./a.out
+%CPU %MEM CMD
+96.0  0.0 ./a.out
+%CPU %MEM CMD
+ 107  0.0 ./a.out
+%CPU %MEM CMD
+ 119  0.0 ./a.out
+%CPU %MEM CMD
+97.7  0.0 ./a.out
+%CPU %MEM CMD
+ 106  0.0 ./a.out
+%CPU %MEM CMD
+ 114  0.0 ./a.out
+%CPU %MEM CMD
+98.6  0.0 ./a.out
+%CPU %MEM CMD
+ 105  0.0 ./a.out
+%CPU %MEM CMD
+ 111  0.0 ./a.out
+%CPU %MEM CMD
+99.1  0.0 ./a.out
+%CPU %MEM CMD
+ 104  0.0 ./a.out
+%CPU %MEM CMD
+ 110  0.0 ./a.out
+%CPU %MEM CMD
+99.2  0.0 ./a.out
+%CPU %MEM CMD
+ 104  0.0 ./a.out
+%CPU %MEM CMD
+ 109  0.0 ./a.out
+%CPU %MEM CMD
+99.6  0.0 ./a.out
+%CPU %MEM CMD
+ 104  0.0 [a.out]
+%CPU %MEM CMD
+96.5  0.0 [a.out]
+%CPU %MEM CMD

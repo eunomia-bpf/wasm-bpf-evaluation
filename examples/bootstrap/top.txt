@@ -1,0 +1,347 @@
+%CPU %MEM CMD
+%CPU %MEM CMD
+ 0.0  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+36.0  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+59.0  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+ 103  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+ 157  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+ 203  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+ 126  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+ 150  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+ 176  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+ 199  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+ 147  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+ 165  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+ 177  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+ 184  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+ 141  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+ 143  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+ 144  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+ 145  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+ 145  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+ 116  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+ 118  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+ 119  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+ 125  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+ 104  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+ 106  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+ 107  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+ 108  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+ 108  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+93.2  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+93.5  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+94.0  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+94.0  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+82.5  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+82.8  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+82.8  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+83.2  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+83.7  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+74.6  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+76.5  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+77.2  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+79.3  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+72.2  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+72.6  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+72.9  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+73.0  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+73.1  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+66.4  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+66.4  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+66.4  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+61.0  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+61.0  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+61.0  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+61.0  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+56.3  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+56.3  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+52.4  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+52.4  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+52.5  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+49.0  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+49.0  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+49.0  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+49.2  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+46.2  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+46.3  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+46.3  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+43.7  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+43.7  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+43.7  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+43.7  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+41.3  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+41.3  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+41.3  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+41.5  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+39.3  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+39.3  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+39.3  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+39.3  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+37.3  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+37.4  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+37.4  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+37.4  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+37.4  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+35.6  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+35.6  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+35.6  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+35.6  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+34.0  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+34.0  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+34.0  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+34.2  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+33.0  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+33.0  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+33.0  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+33.0  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+31.7  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+31.7  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+31.7  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+31.7  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+30.4  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+30.4  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+30.5  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+30.5  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+30.5  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+29.3  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+29.3  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+29.3  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+29.3  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+28.2  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+28.2  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+28.2  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+28.2  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+27.2  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+27.2  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+27.2  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+27.2  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+26.3  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+26.3  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+26.3  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+25.5  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+25.5  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+25.5  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+25.5  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+24.6  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+24.6  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+24.6  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+24.6  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+23.9  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+23.9  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+23.9  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+23.9  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+23.9  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+23.1  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+23.1  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+23.1  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+23.1  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+22.5  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+22.5  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+22.5  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+22.5  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+21.8  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+21.8  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+21.8  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+21.8  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+21.2  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+21.2  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+21.2  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+21.2  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+20.6  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+20.6  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+20.6  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+20.6  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+20.6  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+20.1  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+20.1  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+20.1  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+20.1  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+19.6  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+19.6  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+19.6  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+19.6  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+19.1  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+19.1  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+19.1  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+19.1  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+18.6  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+18.6  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+18.6  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+18.6  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+18.6  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+18.2  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+18.2  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+18.2  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build
+%CPU %MEM CMD
+18.2  0.0 /home/yangyw/.rustup/toolchains/1.76.0-x86_64-unknown-linux-gnu/bin/cargo build

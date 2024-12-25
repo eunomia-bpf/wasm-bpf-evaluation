@@ -129,7 +129,7 @@ $(BZS_APPS): $(LIBBLAZESYM_OBJ)
 # Build application binary
 $(APPS): %: $(OUTPUT)/%.o $(LIBBPF_OBJ) | $(OUTPUT)
 	$(call msg,BINARY,$@)
-	$(Q)$(CC) $(CFLAGS) $^ $(ALL_LDFLAGS) -g -lelf -lz -DNATIVE_LIBBPF -o $@
+	$(Q)$(CXX) $(CFLAGS) $^ $(ALL_LDFLAGS) -g -lelf -lz -DNATIVE_LIBBPF -o $@
 
 # delete failed targets
 .DELETE_ON_ERROR:
