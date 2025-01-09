@@ -22,9 +22,9 @@ from langchain.prompts import PromptTemplate
 # Load environment variables (including OPENAI_API_KEY) from .env, if desired
 load_dotenv()
 
-def load_krie_docs(doc_path: str) -> str:
+def load_ebpf_docs(doc_path: str) -> str:
     """
-    Simple helper function to read the KRIe documentation
+    Simple helper function to read the ebpf documentation
     from a local .txt file. 
     """
     with open(doc_path, 'r', encoding='utf-8') as f:
@@ -32,7 +32,7 @@ def load_krie_docs(doc_path: str) -> str:
 
 def build_vectorstore(text: str):
     """
-    Build a FAISS vectorstore from the KRIe docs text.
+    Build a FAISS vectorstore from the ebpf docs text.
     Splits the text into chunks, then embeds and stores.
     """
     text_splitter = RecursiveCharacterTextSplitter(
@@ -55,19 +55,19 @@ def create_agent(vectorstore):
     """
     # We can define a custom system prompt if needed. For example:
     system_template = """
-    You are KRIeDocBot, an AI assistant specialized in KRIe (Kernel Runtime Integrity with eBPF).
-    Use the retrieved KRIe documentation to answer the user's question. If the answer doesn't appear 
+    You are ebpfDocBot, an AI assistant specialized in ebpf (Kernel Runtime Integrity with eBPF).
+    Use the retrieved ebpf documentation to answer the user's question. If the answer doesn't appear 
     in the documentation, say you don't know. Cite relevant details from the text where possible.
 
     The user may ask about:
-     - KRIe's licensing
+     - ebpf's licensing
      - Basic usage, building, and configuration
      - System requirements
      - Potential limitations
      - Differences between eBPF and Go code licensing (GPL vs Apache 2.0)
      - BTF debug information, etc.
 
-    Always ensure answers are consistent with the KRIe documentation. 
+    Always ensure answers are consistent with the ebpf documentation. 
     """
 
     prompt = PromptTemplate(
@@ -77,7 +77,7 @@ def create_agent(vectorstore):
 
 Question: {question}
 
-Answer as helpfully as possible, citing relevant KRIe docs information when you can.
+Answer as helpfully as possible, citing relevant ebpf docs information when you can.
         """,
     )
 
@@ -106,28 +106,28 @@ Answer as helpfully as possible, citing relevant KRIe docs information when you 
     return qa_chain
 
 def main():
-    # 1) Load the KRIe documentation from file
-    doc_path = "krie_docs.txt"  # Path to the text file with the KRIe docs
-    krie_text = load_krie_docs(doc_path)
+    # 1) Load the ebpf documentation from file
+    doc_path = "ebpf_docs.txt"  # Path to the text file with the ebpf docs
+    ebpf_text = load_ebpf_docs(doc_path)
 
-    # 2) Build a FAISS vectorstore from the KRIe docs
-    vectorstore = build_vectorstore(krie_text)
+    # 2) Build a FAISS vectorstore from the ebpf docs
+    vectorstore = build_vectorstore(ebpf_text)
 
     # 3) Create the generative agent (ConversationalRetrievalChain)
     agent = create_agent(vectorstore)
 
     # 4) Example conversation loop
-    print("KRIeDocBot is ready to answer your queries about KRIe!\n")
+    print("ebpfDocBot is ready to answer your queries about ebpf!\n")
     print("Type 'exit' or 'quit' to end.\n")
     while True:
         user_input = input("You: ")
         if user_input.lower() in ["exit", "quit"]:
-            print("KRIeDocBot: Goodbye!")
+            print("ebpfDocBot: Goodbye!")
             break
 
         # 5) Pass the user input to the agent
         response = agent({"question": user_input})
-        print(f"KRIeDocBot: {response['answer']}\n")
+        print(f"ebpfDocBot: {response['answer']}\n")
 
 if __name__ == "__main__":
     main()

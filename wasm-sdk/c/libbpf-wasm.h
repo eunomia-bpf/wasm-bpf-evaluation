@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 #define POLL_TIMEOUT_MS 100
 #define IMPORT_MODULE "wasm_bpf"
