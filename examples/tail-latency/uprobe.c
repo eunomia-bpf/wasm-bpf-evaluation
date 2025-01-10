@@ -1,7 +1,10 @@
+#include <stdlib.h>
+#include <fcntl.h>
+#include <stdbool.h>
+#include <unistd.h>
 #include <stddef.h>
 #define _GNU_SOURCE
 #include "libbpf-wasm.h"
-#include "uprobe.skel.h"
 #include "wbpf.h"
 #include <arpa/inet.h>
 #include <netinet/in.h>
@@ -17,6 +20,13 @@
 #include <wasi_socket_ext.h>
 #endif
 
+// Include BPF skeleton after all standard headers
+#include "uprobe.skel.h"
+
+// Function declarations
+int wasm_bpf_prog_attach(bpf_object_skel obj, const char *name,
+                         const char *path, const char *fn, bool is_return);
+
 struct latency_key {
   uint32_t pid;
   uint64_t timestamp;
@@ -28,13 +38,14 @@ struct latency_value {
 };
 
 #define MAX_ENTRIES 1000
-#define P99_THRESHOLD 100000000 // 100ms in nanoseconds
+#define P99_THRESHOLD 1000000 // 100ms in nanoseconds
 #define HOOKER_PORT 8888
 #define LATENCY_THRESHOLD_MS 100 // 100ms threshold for tail latency
 
 static volatile int should_exit = 0;
 static struct uprobe_bpf *skel = NULL;
 static int hooker_sock = -1;
+static int server_sock = -1;
 void sig_handler(int sig) { should_exit = 1; }
 
 static int setup_hooker_server() {
@@ -118,7 +129,7 @@ static char **get_hooker_ip(int sock) {
 
     // Add trace ID to response
     offset += snprintf(response + offset, sizeof(response) - offset,
-                       "TRACE_ID:%lu\n", sync_info->trace_id);
+                       "TRACE_ID:%u\n", sync_info->trace_id);
 
     // Collect latency data from BPF map
     bpf_object_skel obj = (bpf_object_skel)(uintptr_t)skel->obj;
@@ -159,21 +170,14 @@ static char **get_hooker_ip(int sock) {
 }
 
 static void *hooker_thread_func(void *arg) {
-  int server_sock = setup_hooker_server();
-  if (server_sock < 0) {
-    fprintf(stderr, "Failed to setup hooker server\n");
-    return NULL;
-  }
+  fprintf(stderr, "Starting hooker server\n");
 
-  if (listen(server_sock, 5) < 0) {
-    fprintf(stderr, "Failed to listen\n");
-    close(server_sock);
-    return NULL;
-  }
 
   struct sockaddr_in client_addr;
   socklen_t client_len = sizeof(client_addr);
 
+  fprintf(stderr, "Server socket created and listening on port %d\n",
+          HOOKER_PORT);
   while (!should_exit) {
     hooker_sock =
         accept(server_sock, (struct sockaddr *)&client_addr, &client_len);
@@ -183,9 +187,8 @@ static void *hooker_thread_func(void *arg) {
     }
 
     char **hooker_ips = get_hooker_ip(hooker_sock);
-    if (hooker_ips && hooker_ips[0]) {
-      // Try to connect to the first IP
-      if (setup_hooker_socket(hooker_ips[0]) < 0) {
+    for (int i = 0; hooker_ips && hooker_ips[i]; i++) {
+      if (setup_hooker_socket(hooker_ips[i]) < 0) {
         fprintf(stderr, "Warning: Could not connect to hooker process\n");
       }
     }
@@ -268,7 +271,17 @@ int main(int argc, char **argv) {
   // Set up signal handler
   signal(SIGINT, sig_handler);
   signal(SIGTERM, sig_handler);
+  int server_sock = setup_hooker_server();
+  if (server_sock < 0) {
+    fprintf(stderr, "Failed to setup hooker server\n");
+    return 0;
+  }
 
+  if (listen(server_sock, 5) < 0) {
+    fprintf(stderr, "Failed to listen\n");
+    close(server_sock);
+    return 0;
+  }
   pthread_t hooker_thread;
   pthread_create(&hooker_thread, NULL, hooker_thread_func, NULL);
 
@@ -279,13 +292,23 @@ int main(int argc, char **argv) {
     return 1;
   }
 
-  // Get map file descriptor
-  bpf_object_skel obj = (bpf_object_skel)(uintptr_t)skel->obj;
-  int map_fd = wasm_bpf_map_fd_by_name(obj, "latency_map");
-  if (map_fd < 0) {
-    fprintf(stderr, "Failed to get map fd\n");
+  // Attach the probes
+  int err = uprobe_bpf__attach(skel);
+  if (err) {
+    fprintf(stderr, "Failed to attach BPF programs: %d\n", err);
     goto cleanup;
   }
+
+  printf("Successfully attached all probes\n");
+
+  // Get map file descriptor
+  bpf_object_skel bpf_obj = (bpf_object_skel)(uintptr_t)skel->obj;
+  int map_fd = -1;
+
+  // Try to get map fd with different methods
+  map_fd = bpf_map__fd(skel->maps.latency_map);
+
+  printf("Successfully loaded BPF program and got map fd: %d\n", map_fd);
 
   struct latency_value latencies[MAX_ENTRIES];
   int latency_count = 0;
@@ -325,15 +348,13 @@ int main(int argc, char **argv) {
     // Calculate and report P99 latency
     if (latency_count > 0) {
       uint64_t p99 = calculate_p99(latencies, latency_count);
-      printf("P99 latency: %llu ms (from %d samples)\n", p99 / 1000000,
+      printf("P99 latency: %lu ms (from %d samples)\n", p99 / 1000000,
              latency_count);
 
       if (p99 > P99_THRESHOLD) {
         printf("Warning: P99 latency exceeds threshold!\n");
       }
     }
-
-    sleep(1);
   }
 
 cleanup:
