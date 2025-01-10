@@ -81,34 +81,119 @@ static int setup_hooker_socket(char *hooker_ip) {
 
   return hooker_sock;
 }
-static char *get_hooker_ip(int sock) {
+static char **get_hooker_ip(int sock) {
+  static char ips[10][16]; // Static array to store IPs
+  memset(ips, 0, sizeof(ips));
+
   char *buffer = (char *)malloc(200);
-  if (recv(sock, buffer, sizeof(buffer), 0) < 0) {
-    fprintf(stderr, "Failed to receive hooker IP\n");
+  if (!buffer) {
+    fprintf(stderr, "Failed to allocate memory\n");
     return NULL;
   }
+
+  if (recv(sock, buffer, sizeof(buffer), 0) < 0) {
+    fprintf(stderr, "Failed to receive hooker IP\n");
+    free(buffer);
+    return NULL;
+  }
+
   buffer[strcspn(buffer, "\n")] = '\0';
   struct wbpf_sync_info *sync_info = (struct wbpf_sync_info *)buffer;
-  if (sync_info->sync_mode == WBPF_SYNC_NOTIFY) {
-    printf("Received hooker IP: %s\n", buffer);
-    return sync_info->sync_ip[0];
-  } else if (sync_info->sync_mode == WBPF_SYNC_FLUSH) {
-    printf("Received hooker IP: %s\n", buffer);
-    return sync_info->sync_ip[0];
+
+  if (sync_info->sync_mode == WBPF_SYNC_NOTIFY ||
+      sync_info->sync_mode == WBPF_SYNC_FLUSH) {
+    // Copy IPs to static array
+    for (int i = 0; i < 10 && sync_info->sync_ip[i][0] != '\0'; i++) {
+      strncpy(ips[i], sync_info->sync_ip[i], 15);
+      ips[i][15] = '\0'; // Ensure null termination
+    }
+    free(buffer);
+    return (char **)ips;
   }
+
+  if (sync_info->sync_mode == WBPF_SYNC_COLLECT) {
+    // Collect all latency data for the trace ID
+    char response[4096] = {0}; // Buffer for response
+    int offset = 0;
+
+    // Add trace ID to response
+    offset += snprintf(response + offset, sizeof(response) - offset,
+                       "TRACE_ID:%lu\n", sync_info->trace_id);
+
+    // Collect latency data from BPF map
+    bpf_object_skel obj = (bpf_object_skel)(uintptr_t)skel->obj;
+    int map_fd = wasm_bpf_map_fd_by_name(obj, "latency_map");
+    if (map_fd >= 0) {
+      struct latency_key key = {}, next_key = {};
+      struct latency_value value;
+
+      // Iterate through all entries
+      while (wasm_bpf_map_operate(map_fd, BPF_MAP_GET_NEXT_KEY, &key, NULL,
+                                  &next_key, 0) == 0) {
+        if (wasm_bpf_map_operate(map_fd, BPF_MAP_LOOKUP_ELEM, &next_key, &value,
+                                 NULL, 0) == 0) {
+          // Add latency data to response
+          offset += snprintf(response + offset, sizeof(response) - offset,
+                             "PID:%u,COMM:%s,LATENCY:%lu\n", next_key.pid,
+                             value.comm, value.duration);
+
+          // Delete processed entry
+          wasm_bpf_map_operate(map_fd, BPF_MAP_DELETE_ELEM, &next_key, NULL,
+                               NULL, 0);
+        }
+        key = next_key;
+      }
+    }
+
+    // Send collected data back to initiator
+    if (send(sock, response, strlen(response), 0) < 0) {
+      fprintf(stderr, "Failed to send latency data back to initiator\n");
+    }
+
+    free(buffer);
+    return NULL;
+  }
+
+  free(buffer);
   return NULL;
 }
 
 static void *hooker_thread_func(void *arg) {
-  setup_hooker_server();
-  char *hooker_ip = get_hooker_ip(hooker_sock);
-
-  while (1) {
-    int hooker_sock = setup_hooker_socket(hooker_ip);
-    if (hooker_sock < 0) {
-      fprintf(stderr, "Warning: Could not connect to hooker process\n");
-    }
+  int server_sock = setup_hooker_server();
+  if (server_sock < 0) {
+    fprintf(stderr, "Failed to setup hooker server\n");
+    return NULL;
   }
+
+  if (listen(server_sock, 5) < 0) {
+    fprintf(stderr, "Failed to listen\n");
+    close(server_sock);
+    return NULL;
+  }
+
+  struct sockaddr_in client_addr;
+  socklen_t client_len = sizeof(client_addr);
+
+  while (!should_exit) {
+    hooker_sock =
+        accept(server_sock, (struct sockaddr *)&client_addr, &client_len);
+    if (hooker_sock < 0) {
+      fprintf(stderr, "Failed to accept connection\n");
+      continue;
+    }
+
+    char **hooker_ips = get_hooker_ip(hooker_sock);
+    if (hooker_ips && hooker_ips[0]) {
+      // Try to connect to the first IP
+      if (setup_hooker_socket(hooker_ips[0]) < 0) {
+        fprintf(stderr, "Warning: Could not connect to hooker process\n");
+      }
+    }
+
+    close(hooker_sock);
+  }
+
+  close(server_sock);
   return NULL;
 }
 

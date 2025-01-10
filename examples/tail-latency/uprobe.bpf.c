@@ -1,17 +1,13 @@
-#include <bpf/bpf_core_read.h>
+#include <bpf/bpf_endian.h>
 #include <bpf/bpf_helpers.h>
-#include <bpf/bpf_tracing.h>
 #include <linux/bpf.h>
-#include <linux/types.h>
+#include <linux/if_ether.h>
+#include <linux/in.h>
+#include <linux/ip.h>
+#include <stddef.h>
 
-#ifndef __u32
-typedef unsigned int __u32;
-#endif
-#ifndef __u64
-typedef unsigned long long __u64;
-#endif
-
-char LICENSE[] SEC("license") = "GPL";
+#define MAX_ENTRIES 10000
+#define LATENCY_THRESHOLD 100000000 // 100ms in nanoseconds
 
 struct latency_key {
   __u32 pid;
@@ -25,10 +21,12 @@ struct latency_value {
 
 struct {
   __uint(type, BPF_MAP_TYPE_HASH);
-  __uint(max_entries, 1000);
+  __uint(max_entries, MAX_ENTRIES);
   __type(key, struct latency_key);
   __type(value, struct latency_value);
 } latency_map SEC(".maps");
+
+char LICENSE[] SEC("license") = "GPL";
 
 SEC("uprobe/libc.so:send")
 int send_entry(struct pt_regs *ctx) {
@@ -54,6 +52,10 @@ int send_exit(struct pt_regs *ctx) {
   valuep = bpf_map_lookup_elem(&latency_map, &key);
   if (valuep) {
     valuep->duration = current_time - key.timestamp;
+    if (valuep->duration > LATENCY_THRESHOLD) {
+      bpf_printk("High latency detected in %s: %llu ns", valuep->comm,
+                 valuep->duration);
+    }
     bpf_map_delete_elem(&latency_map, &key);
   }
   return 0;
@@ -83,6 +85,10 @@ int recv_exit(struct pt_regs *ctx) {
   valuep = bpf_map_lookup_elem(&latency_map, &key);
   if (valuep) {
     valuep->duration = current_time - key.timestamp;
+    if (valuep->duration > LATENCY_THRESHOLD) {
+      bpf_printk("High latency detected in %s: %llu ns", valuep->comm,
+                 valuep->duration);
+    }
     bpf_map_delete_elem(&latency_map, &key);
   }
   return 0;
