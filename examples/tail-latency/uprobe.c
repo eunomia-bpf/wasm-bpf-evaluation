@@ -52,6 +52,8 @@ static int hooker_sock = -1;
 static int server_sock = -1;
 static int client_sockets[MAX_CLIENTS];
 static int client_count = 0;
+static int cur_trace_id = 0;
+static bool mark_end= false;
 static pthread_mutex_t clients_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 void sig_handler(int sig) { should_exit = 1; }
@@ -137,6 +139,13 @@ static char **get_hooker_ip(int sock)
   buffer[strcspn(buffer, "\n")] = '\0';
   struct wbpf_sync_info *sync_info = (struct wbpf_sync_info *)buffer;
 
+  if (sync_info->sync_mode == WBPF_SYNC_CREATE)
+  {
+    strncpy(ips[0], sync_info->sync_ip[0], 15);
+    ips[0][15] = '\0'; // Ensure null termination
+    free(buffer);
+    return (char **)ips;
+  }
   if (sync_info->sync_mode == WBPF_SYNC_NOTIFY ||
       sync_info->sync_mode == WBPF_SYNC_FLUSH)
   {
@@ -201,48 +210,92 @@ static char **get_hooker_ip(int sock)
   free(buffer);
   return NULL;
 }
-static void *hooker_thread_func(void *arg) {
-    int srv_sock = *(int *)arg;   // receive the listening socket
-    printf("Server socket created and listening on port %d\n", HOOKER_PORT);
+static void *hooker_thread_func(void *arg)
+{
+  int srv_sock = *(int *)arg; // receive the listening socket
+  printf("Server socket created and listening on port %d\n", HOOKER_PORT);
 
-    // This is the infinite accept loop
-    while (!should_exit) {
-        struct sockaddr_in client_addr;
-        socklen_t client_len = sizeof(client_addr);
-        int client_sock = accept(srv_sock, (struct sockaddr *)&client_addr, &client_len);
-        if (client_sock < 0) {
-            perror("accept");
-            sleep(1);
-            continue;
-        }
-
-        int client_index = add_client(client_sock);
-        if (client_index < 0) {
-            fprintf(stderr, "Too many clients\n");
-            close(client_sock);
-            continue;
-        }
-        printf("New client connected, total clients: %d\n", client_count);
+  // This is the infinite accept loop
+  while (!should_exit)
+  {
+    struct sockaddr_in client_addr;
+    socklen_t client_len = sizeof(client_addr);
+    int client_sock = accept(srv_sock, (struct sockaddr *)&client_addr, &client_len);
+    if (client_sock < 0)
+    {
+      perror("accept");
+      sleep(1);
+      continue;
     }
 
-    close(srv_sock);
-    return NULL;
+    int client_index = add_client(client_sock);
+    if (client_index < 0)
+    {
+      fprintf(stderr, "Too many clients\n");
+      close(client_sock);
+      continue;
+    }
+    printf("New client connected, total clients: %d\n", client_count);
+    mark_end = false;
+    // Get hooker IPs from the accepted connection
+    char **hooker_ips = get_hooker_ip(client_sock);
+    if (!hooker_ips)
+    {
+      fprintf(stderr, "Failed to get hooker IPs\n");
+      close(client_sock);
+      continue;
+    }
+
+    // Try to connect back to each IP
+    struct sockaddr_in server_addr;
+    memset(&server_addr, 0, sizeof(server_addr));
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_port = htons(HOOKER_PORT);
+
+    if (inet_pton(AF_INET, hooker_ips[0], &server_addr.sin_addr) <= 0)
+    {
+      fprintf(stderr, "Invalid IP address: %s\n", hooker_ips[0]);
+      continue;
+    }
+
+    // Create a new socket for connecting back
+    int connector_fd = socket(AF_INET, SOCK_STREAM, 0);
+    if (connector_fd < 0)
+    {
+      perror("socket");
+      continue;
+    }
+
+    if (connect(connector_fd, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0)
+    {
+      fprintf(stderr, "Failed to connect back to %s\n", hooker_ips[0]);
+      close(connector_fd);
+    }
+    else
+    {
+      printf("Successfully connected back to %s\n", hooker_ips[0]);
+    }
+  }
+
+  close(client_sock);
+  close(srv_sock);
+  return NULL;
 }
 
-static void send_alert_to_hooker(int sock, struct latency_key *key,
+static void send_alert_to_hooker(struct latency_key *key,
                                  struct latency_value *value)
 {
-  if (sock < 0)
-    return;
-
-  char buffer[256];
-  snprintf(buffer, sizeof(buffer),
-           "TAIL_LATENCY_ALERT: PID=%u COMM=%s DURATION=%lu ms\n", key->pid,
-           value->comm, value->duration / 1000000);
-
-  if (send(sock, buffer, strlen(buffer), 0) < 0)
+  for (int i = 0; i < client_count; i++)
   {
-    fprintf(stderr, "Failed to send alert to hooker\n");
+    char buffer[256];
+    struct wbpf_sync_info *sync_info = (struct wbpf_sync_info *)buffer;
+    sync_info->sync_mode = WBPF_SYNC_NOTIFY;
+    sync_info->trace_id = cur_trace_id;
+
+    if (send(client_sockets[i], buffer, strlen(buffer), 0) < 0)
+    {
+      fprintf(stderr, "Failed to send alert to hooker\n");
+    }
   }
 }
 
@@ -341,115 +394,135 @@ static void remove_client(int index)
   pthread_mutex_unlock(&clients_mutex);
 }
 
-int main(int argc, char **argv) {
-    // Set up signals
-    signal(SIGINT, sig_handler);
-    signal(SIGTERM, sig_handler);
+int main(int argc, char **argv)
+{
+  // Set up signals
+  signal(SIGINT, sig_handler);
+  signal(SIGTERM, sig_handler);
 
-    bool is_hooker = (argc > 1) && atoi(argv[1]);
-    printf("is_hooker: %d\n", is_hooker);
+  bool is_hooker = (argc > 1) && atoi(argv[1]);
+  printf("is_hooker: %d\n", is_hooker);
 
-    // Create and bind + listen
-    server_sock = setup_hooker_server(); // Now `server_sock` is a global, or you keep it local but pass to the thread
-    if (server_sock < 0) {
-        fprintf(stderr, "Failed to set up hooker server\n");
-        return 1;
+  // Create and bind + listen
+  server_sock = setup_hooker_server(); // Now `server_sock` is a global, or you keep it local but pass to the thread
+  if (server_sock < 0)
+  {
+    fprintf(stderr, "Failed to set up hooker server\n");
+    return 1;
+  }
+
+  // Start thread that does the infinite accept loop
+  pthread_t hooker_thread;
+  pthread_create(&hooker_thread, NULL, hooker_thread_func, &server_sock);
+
+  // If you want to connect to other IPs when is_hooker==true, do so here:
+  if (is_hooker)
+  {
+    for (int i = 0; i < atoi(argv[1]); i++)
+    {
+      struct sockaddr_in server_addr2;
+      memset(&server_addr2, 0, sizeof(server_addr2));
+      server_addr2.sin_family = AF_INET;
+      server_addr2.sin_port = htons(HOOKER_PORT);
+      if (inet_pton(AF_INET, argv[2 + i], &server_addr2.sin_addr) <= 0)
+      {
+        perror("inet_pton");
+        continue;
+      }
+
+      // Create a *new* socket for connecting out
+      int connector_fd = socket(AF_INET, SOCK_STREAM, 0);
+      if (connector_fd < 0)
+      {
+        perror("socket");
+        continue;
+      }
+
+      if (connect(connector_fd, (struct sockaddr *)&server_addr2, sizeof(server_addr2)) < 0)
+      {
+        perror("connect");
+        close(connector_fd);
+      }
+      else
+      {
+        printf("Connected to %s!\n", argv[2 + i]);
+        // Possibly store 'connector_fd' somewhere if you need it.
+      }
     }
+    mark_end = true;
+  }
 
-    // Start thread that does the infinite accept loop
-    pthread_t hooker_thread;
-    pthread_create(&hooker_thread, NULL, hooker_thread_func, &server_sock);
+  // Now proceed with loading BPF, attaching probes, etc.
+  skel = uprobe_bpf__open_and_load();
+  if (!skel)
+  {
+    fprintf(stderr, "Failed to open and load BPF program\n");
+    return 1;
+  }
 
-    // If you want to connect to other IPs when is_hooker==true, do so here:
-    if (is_hooker) {
-        for (int i = 0; i < atoi(argv[1]); i++) {
-            struct sockaddr_in server_addr2;
-            memset(&server_addr2, 0, sizeof(server_addr2));
-            server_addr2.sin_family = AF_INET;
-            server_addr2.sin_port = htons(HOOKER_PORT);
-            if (inet_pton(AF_INET, argv[2 + i], &server_addr2.sin_addr) <= 0) {
-                perror("inet_pton");
-                continue;
-            }
+  int err = uprobe_bpf__attach(skel);
+  if (err)
+  {
+    fprintf(stderr, "Failed to attach BPF programs: %d\n", err);
+    goto cleanup;
+  }
 
-            // Create a *new* socket for connecting out
-            int connector_fd = socket(AF_INET, SOCK_STREAM, 0);
-            if (connector_fd < 0) {
-                perror("socket");
-                continue;
-            }
+  printf("Successfully attached all probes\n");
 
-            if (connect(connector_fd, (struct sockaddr *)&server_addr2, sizeof(server_addr2)) < 0) {
-                perror("connect");
-                close(connector_fd);
-            } else {
-                printf("Connected to %s!\n", argv[2 + i]);
-                // Possibly store 'connector_fd' somewhere if you need it.
-            }
+  bpf_object_skel bpf_obj = (bpf_object_skel)(uintptr_t)skel->obj;
+  int map_fd = bpf_map__fd(skel->maps.latency_map);
+  printf("Successfully loaded BPF program and got map fd: %d\n", map_fd);
+
+  // Main loop for reading the map
+  struct latency_value latencies[MAX_ENTRIES];
+  while (!should_exit)
+  {
+    struct latency_key key = {}, next_key = {};
+    struct latency_value value;
+    int latency_count = 0;
+
+    // Pull all entries
+    while (wasm_bpf_map_operate(map_fd, BPF_MAP_GET_NEXT_KEY, &key, NULL, &next_key, 0) == 0)
+    {
+      if (wasm_bpf_map_operate(map_fd, BPF_MAP_LOOKUP_ELEM, &next_key, &value, NULL, 0) == 0)
+      {
+        if (latency_count < MAX_ENTRIES)
+        {
+          latencies[latency_count++] = value;
         }
-    }
-
-    // Now proceed with loading BPF, attaching probes, etc.
-    skel = uprobe_bpf__open_and_load();
-    if (!skel) {
-        fprintf(stderr, "Failed to open and load BPF program\n");
-        return 1;
-    }
-
-    int err = uprobe_bpf__attach(skel);
-    if (err) {
-        fprintf(stderr, "Failed to attach BPF programs: %d\n", err);
-        goto cleanup;
-    }
-
-    printf("Successfully attached all probes\n");
-
-    bpf_object_skel bpf_obj = (bpf_object_skel)(uintptr_t)skel->obj;
-    int map_fd = bpf_map__fd(skel->maps.latency_map);
-    printf("Successfully loaded BPF program and got map fd: %d\n", map_fd);
-
-    // Main loop for reading the map
-    struct latency_value latencies[MAX_ENTRIES];
-    while (!should_exit) {
-        struct latency_key key = {}, next_key = {};
-        struct latency_value value;
-        int latency_count = 0;
-
-        // Pull all entries
-        while (wasm_bpf_map_operate(map_fd, BPF_MAP_GET_NEXT_KEY, &key, NULL, &next_key, 0) == 0) {
-            if (wasm_bpf_map_operate(map_fd, BPF_MAP_LOOKUP_ELEM, &next_key, &value, NULL, 0) == 0) {
-                if (latency_count < MAX_ENTRIES) {
-                    latencies[latency_count++] = value;
-                }
-                // Check for immediate tail latency
-                if (value.duration > LATENCY_THRESHOLD_MS * 1000000ULL) {
-                    printf("Tail latency detected in %s (PID: %u) - Duration: %lu ms\n",
-                           value.comm, next_key.pid, value.duration / 1000000ULL);
-                    send_alert_to_hooker(hooker_sock, &next_key, &value);
-                }
-                // Delete the processed entry
-                wasm_bpf_map_operate(map_fd, BPF_MAP_DELETE_ELEM, &next_key, NULL, NULL, 0);
-            }
-            key = next_key;
+        // Check for immediate tail latency
+        if (value.duration > LATENCY_THRESHOLD_MS * 1000000ULL)
+        {
+          printf("Tail latency detected in %s (PID: %u) - Duration: %lu ms\n",
+                 value.comm, next_key.pid, value.duration / 1000000ULL);
+          send_alert_to_hooker(&next_key, &value);
         }
-
-        // Calculate and report P99
-        if (latency_count > 0) {
-            uint64_t p99 = calculate_p99(latencies, latency_count);
-            // printf("P99 latency: %lu ms (from %d samples)\n", p99 / 1000000ULL, latency_count);
-            if (p99 > P99_THRESHOLD) {
-                printf("Warning: P99 latency exceeds threshold!\n");
-            }
-        }
+        // Delete the processed entry
+        wasm_bpf_map_operate(map_fd, BPF_MAP_DELETE_ELEM, &next_key, NULL, NULL, 0);
+      }
+      key = next_key;
     }
+
+    // Calculate and report P99
+    if (latency_count > 0)
+    {
+      uint64_t p99 = calculate_p99(latencies, latency_count);
+      // printf("P99 latency: %lu ms (from %d samples)\n", p99 / 1000000ULL, latency_count);
+      if (p99 > P99_THRESHOLD)
+      {
+        printf("Warning: P99 latency exceeds threshold!\n");
+      }
+    }
+  }
 
 cleanup:
-    printf("\nCleaning up...\n");
-    if (skel) {
-        uprobe_bpf__destroy(skel);
-    }
+  printf("\nCleaning up...\n");
+  if (skel)
+  {
+    uprobe_bpf__destroy(skel);
+  }
 
-    // Optionally wait for the hooker_thread
-    pthread_join(hooker_thread, NULL);
-    return 0;
+  // Optionally wait for the hooker_thread
+  pthread_join(hooker_thread, NULL);
+  return 0;
 }
